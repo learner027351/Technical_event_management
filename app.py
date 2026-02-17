@@ -11,12 +11,10 @@ bcrypt.init_app(app)
 with app.app_context():
     db.create_all()
 
-# ---------------- HOME ----------------
 @app.route('/')
 def home():
     return render_template("index.html")
 
-# ---------------- REGISTER ----------------
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
@@ -35,7 +33,6 @@ def register():
 
     return render_template("register.html")
 
-# ---------------- LOGIN ----------------
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -48,7 +45,6 @@ def login():
 
     return render_template("login.html")
 
-# ---------------- DASHBOARD ----------------
 @app.route('/dashboard')
 def dashboard():
     if 'user_id' not in session:
@@ -57,7 +53,7 @@ def dashboard():
     return render_template("dashboard.html", role=session.get('role'))
 
 
-# ---------------- ADD PRODUCT (Vendor) ----------------
+
 @app.route('/add_product', methods=['GET', 'POST'])
 def add_product():
     if session.get('role') != "vendor":
@@ -76,7 +72,7 @@ def add_product():
 
     return render_template("add_product.html")
 
-# ---------------- VIEW PRODUCTS ----------------
+
 @app.route('/products')
 def products():
     all_products = Product.query.all()
@@ -92,8 +88,7 @@ if __name__ == "__main__":
     app.run(debug=True)
     
     
-    
-# ---------------- ADD TO CART ----------------
+
 @app.route('/add_to_cart/<int:product_id>')
 def add_to_cart(product_id):
     if 'user_id' not in session:
@@ -118,7 +113,7 @@ def add_to_cart(product_id):
     return redirect('/cart')
 
 
-# ---------------- VIEW CART ----------------
+
 @app.route('/cart')
 def view_cart():
     carts = Cart.query.filter_by(user_id=session['user_id']).all()
